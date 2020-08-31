@@ -101,7 +101,8 @@ class Controller {
     }
 
     initPlayedBar() {
-        const thumbMove = (e) => {
+        const thumbMove = (event) => {
+            const e = event || window.event;
             let percentage = ((e.clientX || e.changedTouches[0].clientX) - utils.getBoundingClientRectViewLeft(this.player.template.playedBarWrap)) / this.player.template.playedBarWrap.clientWidth;
             percentage = Math.max(percentage, 0);
             percentage = Math.min(percentage, 1);
@@ -109,7 +110,8 @@ class Controller {
             this.player.template.ptime.innerHTML = utils.secondToTime(percentage * this.player.video.duration);
         };
 
-        const thumbUp = (e) => {
+        const thumbUp = (event) => {
+            const e = event || window.event;
             document.removeEventListener(utils.nameMap.dragEnd, thumbUp);
             document.removeEventListener(utils.nameMap.dragMove, thumbMove);
             let percentage = ((e.clientX || e.changedTouches[0].clientX) - utils.getBoundingClientRectViewLeft(this.player.template.playedBarWrap)) / this.player.template.playedBarWrap.clientWidth;
@@ -126,8 +128,9 @@ class Controller {
             document.addEventListener(utils.nameMap.dragEnd, thumbUp);
         });
 
-        this.player.template.playedBarWrap.addEventListener(utils.nameMap.dragMove, (e) => {
+        this.player.template.playedBarWrap.addEventListener(utils.nameMap.dragMove, (event) => {
             if (this.player.video.duration) {
+                const e = event || window.event;
                 const px = this.player.template.playedBarWrap.getBoundingClientRect().left;
                 const tx = (e.clientX || e.changedTouches[0].clientX) - px;
                 if (tx < 0 || tx > this.player.template.playedBarWrap.offsetWidth) {
